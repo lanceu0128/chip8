@@ -3,11 +3,10 @@
 using namespace std;
 
 int main() {
-  cout << "this will be a CHIP-8 emulator eventually!!";
+ cout << "this will be a CHIP-8 emulator eventually!!\n";
 
-  Chip8 chip8;
+ Chip8 chip = Chip8();
+ chip.reset();
+ return 0;
 
-  cout << "instantiated Chip8";
-
-  return 0;
 }
