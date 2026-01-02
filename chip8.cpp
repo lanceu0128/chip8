@@ -7,5 +7,3 @@ Chip8::Chip8() {
         memory[i] = fonts[i];
     }
 }
-
-int main() {}

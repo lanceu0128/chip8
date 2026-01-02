@@ -1,8 +1,7 @@
-all: main chip8
+all: main
 
 main: 
-	g++ main.cpp -o main
+	g++ main.cpp chip8.cpp -o main
 
-chip8:
-	g++ chip8.cpp -o chip8
-	
+clean:
+	rm main
