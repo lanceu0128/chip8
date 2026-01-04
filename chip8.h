@@ -1,6 +1,7 @@
 #ifndef CHIP_8_H
 #define CHIP_8_H
 #include <stdint.h>
+#include <thread>
 
 class Chip8 {
 public:
@@ -21,7 +22,16 @@ public:
     uint8_t sound;
 
     Chip8();
+    ~Chip8();
+
     void reset();
+
+    bool running;
+        
+    std::thread timer_thread;
+
+    // to be called at 60hz rate
+    void decrement_timers(); 
 };
 
 #endif

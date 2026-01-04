@@ -1,6 +1,7 @@
 #include "chip8.h"
 #include <iostream>
 #include <stdint.h>
+#include <thread>
 
 using namespace std;
 
@@ -54,6 +55,29 @@ void Chip8::reset() {
         memory[i] = fonts[i];
     }
 
+    running = true;
+
+    timer_thread = thread(&Chip8::decrement_timers, this);
+    
     cout << "Resetted\n";
 }
 
+void Chip8::decrement_timers() {
+    while (true) {
+        if (!running) return;
+
+        if (delay > 0) delay -= 1;
+    
+        if (sound > 0) sound -= 1;
+    
+        // approx for 16.67 ms; if timing becomes an issue its probably this
+        this_thread::sleep_for(chrono::milliseconds(16));
+    }
+}
+
+Chip8::~Chip8() {
+    running = false;
+    if (timer_thread.joinable()) {
+        timer_thread.join();
+    }
+}
