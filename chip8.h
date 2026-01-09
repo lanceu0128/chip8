@@ -5,9 +5,12 @@
 
 class Chip8 {
 public:
+    static constexpr int DISPLAY_HEIGHT = 32;
+    static constexpr int DISPLAY_WIDTH = 64;
+
     uint8_t memory[4096];
 
-    uint8_t display[64*32];
+    uint8_t display[DISPLAY_HEIGHT][DISPLAY_WIDTH];
 
     uint8_t V[16];
 
@@ -32,6 +35,8 @@ public:
 
     // to be called at 60hz rate
     void decrement_timers(); 
+
+    void render();
 };
 
 #endif

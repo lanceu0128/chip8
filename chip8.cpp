@@ -2,6 +2,7 @@
 #include <iostream>
 #include <stdint.h>
 #include <thread>
+#include <string.h>
 
 using namespace std;
 
@@ -41,8 +42,10 @@ void Chip8::reset() {
     }
 
     // reset display
-    for (int i = 0; i < 64*32; i++) {
-        display[i] = 0;
+    for (int r = 0; r < DISPLAY_HEIGHT; r++) {
+        for (int c = 0; c < DISPLAY_WIDTH; c++) {
+            display[r][c] = 1;
+        }
     }
 
     // reset memory
@@ -58,8 +61,6 @@ void Chip8::reset() {
     running = true;
 
     timer_thread = thread(&Chip8::decrement_timers, this);
-    
-    cout << "Resetted\n";
 }
 
 void Chip8::decrement_timers() {
@@ -80,4 +81,23 @@ Chip8::~Chip8() {
     if (timer_thread.joinable()) {
         timer_thread.join();
     }
+}
+
+void Chip8::render() {
+    cout << "\033[H"; // reset cursor
+
+    string frame = "";
+
+    for (int r = 0; r < DISPLAY_HEIGHT; r++) {
+        for (int c = 0; c < DISPLAY_WIDTH; c++) {
+            if (display[r][c] == 1) {
+                frame += "█";
+            } else {
+                frame += ' ';
+            }
+        }
+        frame += '\n';
+    }
+
+    cout << frame;
 }
